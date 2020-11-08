@@ -1,4 +1,4 @@
-import {Universe} from "wasm-game-of-life";
+import {Universe, alert_the_page} from "wasm-game-of-life";
 
 const preElement = document.querySelector('#game-of-live-canvas');
 const universe = Universe.new(32);
@@ -13,3 +13,5 @@ function renderLoop() {
 }
 
 setInterval(() => universe.randomize(), 10000);
+
+// alert_the_page('hello world');

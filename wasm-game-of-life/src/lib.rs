@@ -5,16 +5,15 @@ use std::fmt::{self, Display, Formatter};
 use rand::prelude::*;
 use wasm_bindgen::prelude::*;
 
-// When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
-// allocator.
-#[cfg(feature = "wee_alloc")]
-#[global_allocator]
-static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
-
-static TITLE: &str = "Web Assembly Game of Life";
+#[wasm_bindgen]
+extern "C" {
+    fn alert(string: &str);
+}
 
 #[wasm_bindgen]
-extern "C" {}
+pub fn alert_the_page(string: &str) {
+    alert(string);
+}
 
 #[wasm_bindgen]
 #[repr(u8)]
@@ -39,6 +38,7 @@ pub fn something() -> Cell {
 }
 
 #[wasm_bindgen]
+#[repr(C)]
 pub struct Universe {
     width: u32,
     height: u32,

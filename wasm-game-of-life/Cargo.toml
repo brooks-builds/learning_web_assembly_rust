@@ -1,40 +1,27 @@
 [package]
-authors = ["Brooks Patton <brooks@brookzerker.com>"]
+authors = ["Brooks Patton <brooks@brookzerker.com>"] # This is a comment
 edition = "2018"
 name = "wasm-game-of-life"
 version = "0.1.0"
 
 [dependencies]
+# required for wasm projects
 wasm-bindgen = "0.2.63"
+
+# These are crates that are compatible with wasm projects
 rand = { version="0.7.3", features= ["wasm-bindgen"] }
 
-[dependencies.console_error_panic_hook]
-optional = true
-version = "0.1.6"
-
-[dependencies.wee_alloc]
-optional = true
-version = "0.4.5"
-
-[dev-dependencies]
-wasm-bindgen-test = "0.3.13"
-
-[features]
-default = ["console_error_panic_hook"]
-
 [lib]
+# https://doc.rust-lang.org/reference/linkage.html
+# These output library files that are required by the linker in wasm-pack
 crate-type = ["cdylib", "rlib"]
 
-[profile]
 [profile.release]
+# Optimize for code size
 opt-level = "s"
-# code size when deploying.
-console_error_panic_hook = { version = "0.1.6", optional = true }
 
-# `wee_alloc` is a tiny allocator for wasm that is only ~1K in code size
-# compared to the default allocator's ~10K. It is slower than the default
-# allocator, however.
-#
-# Unfortunately, `wee_alloc` requires nightly Rust when targeting wasm for now.
-wee_alloc = { version = "0.4.5", optional = true }
-
+[package.metadata.wasm-pack.profile.release]
+# By default wasm-pack builds for release mode, this will turn off optimizations for release mode
+# We won't get very much out of it, so we won't miss the release optimizations when building for real
+# Some optimizations are still happening
+wasm-opt = false
